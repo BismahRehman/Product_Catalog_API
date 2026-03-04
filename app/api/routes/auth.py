@@ -6,7 +6,7 @@ from app.api.deps import get_db,get_current_user
 from app.schemas.user import UserRegister, UserResponse, UserLogin
 from app.curd.user import create_user,login_user
 
-router = APIRouter(prefix="/auth")
+router = APIRouter(prefix="/auth",tags=["auth"])
 
 
 @router.post("/register",response_model=UserResponse)

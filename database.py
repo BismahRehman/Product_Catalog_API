@@ -5,7 +5,7 @@ from config import settings
 
 
 
-engine = create_engine(settings.DATABASE_URI)
+engine = create_engine(settings.DATABASE_URI,connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
