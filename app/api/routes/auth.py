@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.api.deps import get_db
+from app.api.deps import get_db,get_current_user
 from app.schemas.user import UserRegister, UserResponse, UserLogin
 from app.curd.user import create_user,login_user
 
@@ -27,6 +27,5 @@ def login(user:UserLogin, db=Depends(get_db)):
 
 
 @router.put("/update-profile")
-def update_profile(user: UserLogin, db=Depends(get_db)):
-
-    return  user
+def update_profile(current_user: str = Depends(get_current_user)):
+    return {"message": f"Hello {current_user}, you are authenticated"}
