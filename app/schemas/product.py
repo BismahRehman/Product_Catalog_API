@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 from typing import Optional,Annotated
 
 
-class Product(BaseSettings):
+class ProductSchema(BaseSettings):
     name: Annotated[str, Field(... ,description="Enter Product name" ,min_length=5,max_length=20 )]
     description: Annotated[Optional[str], Field(default=None, description= "Enter Product Description" ,min_length=20, max_length=100)]
     category_id: Annotated[ int , Field(... , description= "Enter Product Category id ")]

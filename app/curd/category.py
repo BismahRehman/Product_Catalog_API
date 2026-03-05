@@ -7,20 +7,20 @@ def create_category(category_data,db):
     if existing_category:
         raise HTTPException(status_code=400, detail="Category already exists")
 
-    category = Category(name=category_data.name,description=category_data.description)
+    category = Category(name=category_data.name, description=category_data.description)
     db.add(category)
     db.commit()
     db.refresh(category)
     return category
 
 
-def update_category(category_data,db):
-
-    existing_category = db.query(Category).filter_by(category_name=category_data["category_name"]).first()
-    if not  existing_category:
+def update_category(category_id,category_data ,db):
+    existing_category = db.query(Category).filter_by(id=category_id).first()
+    if not existing_category:
         raise HTTPException(status_code=400, detail="Category does not exist")
 
-    existing_category.category_name = category_data["category_name"]
+    existing_category.name = category_data.name
+    existing_category.description = category_data.description
     db.add(existing_category)
     db.commit()
     db.refresh(existing_category)
@@ -28,8 +28,7 @@ def update_category(category_data,db):
 
 
 def delete_category(category_id,db):
-
-    existing_category = db.query(Category).filter_by(category_name=category_id).first()
+    existing_category = db.query(Category).filter_by(id=category_id).first()
     if not existing_category:
         raise HTTPException(status_code=400, detail="Category does not exist")
 
@@ -49,3 +48,10 @@ def get_categories(category_id,db):
     if not category:
         raise HTTPException(status_code=400, detail="Category does not exist")
     return category
+
+def product_categories(category_id,db):
+    existing_category = db.query(Category).filter_by(id=category_id).first()
+    if not existing_category:
+        raise HTTPException(status_code=400, detail="Category does not exist")
+
+    return existing_category.products

@@ -16,6 +16,7 @@ class Product(Base):
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
 
-    product =  relationship("Product", back_populates="category")
+    category = relationship("Category", back_populates="products")  # link to Category
+
 
 

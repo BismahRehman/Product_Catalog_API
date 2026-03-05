@@ -14,4 +14,4 @@ class Category(Base):
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
 
-    category = relationship("Category", back_populates="product")
+    products = relationship("Product", back_populates="category")
