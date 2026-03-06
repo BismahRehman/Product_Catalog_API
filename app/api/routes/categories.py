@@ -1,5 +1,7 @@
 from typing import List
 
+from fastapi_cache.decorator import cache
+
 from app.schemas.category import CategorySchema, CategoriesResponse
 from app.curd.category import create_category, update_category, delete_category, get_categories, list_categories, \
     product_categories
@@ -25,12 +27,14 @@ def update_categories(category_id:int,category_data:CategorySchema , db=Depends(
 
 
 @router.get("/categories",response_model=List[CategoriesResponse])
+@cache(expire=20)
 def categories(db=Depends(get_db)):
     categories= list_categories(db)
     return categories
 
 
 @router.get("/categories/{category_id}",response_model=CategoriesResponse)
+@cache(expire=600)
 def categories_by_id(category_id:int,db=Depends(get_db)):
     category =  get_categories(category_id,db)
     return category
@@ -43,6 +47,7 @@ def delete_categories(category_id:int,db=Depends(get_db),current_user: str = Dep
 
 
 @router.get("/categories/{category_id}/products",response_model=List[CategoriesResponse])
+@cache(expire=600)
 def products(category_id:int,db=Depends(get_db)):
     products=product_categories(category_id, db)
     return products

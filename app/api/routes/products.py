@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter
-
+from fastapi_cache.decorator import cache
 from app.api.deps import get_db, get_current_user
 from fastapi.params import Depends
 from app.curd.product import create_product,update_product,delete_product,get_product,list_products
@@ -24,12 +24,15 @@ def update_product(product_id: int, product: ProductSchema, db = Depends(get_db)
 
 
 @router.get("/products", response_model=List[ProductResponse])
+@cache(expire=600)
 def get_products(db = Depends(get_db)):
+
     products=list_products(db)
     return products
 
 
 @router.get("/products/{product_id}", response_model=ProductResponse)
+@cache(expire=600)
 def get_product_by_id(product_id: int , db= Depends(get_db) ):
     product=get_product(product_id,db)
     return product

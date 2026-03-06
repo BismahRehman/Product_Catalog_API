@@ -2,12 +2,20 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError, HTTPException
 from starlette.requests import Request
 
+from app.api.middleware import ResponseTimeMiddleware
 from app.api.routes import  auth_router,product_router,category_router
-from database import Base, engine
+from app.api.cache import init_cache
+
 
 
 app = FastAPI(title="my Fast API")
 
+
+app.add_middleware(ResponseTimeMiddleware)
+
+@app.on_event("startup")
+async def startup():
+    await init_cache()
 
 
 app.include_router(auth_router)
