@@ -21,9 +21,11 @@ class ProductResponse(BaseSettings):
     name: str
     description: Optional[str]
     category_id: int
-    category_id: int
     price: float
     created_at: datetime
     updated_at: Optional[datetime]
+
+    class Config:
+        from_attributes = True
 
 

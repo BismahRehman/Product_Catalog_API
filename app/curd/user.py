@@ -43,9 +43,6 @@ def login_user( form_data, db):
      if not existing_user :
          raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="User not found")
 
-     # if existing_user.email != form_data.email:
-     #     raise  HTTPException (status_code=status.HTTP_401_UNAUTHORIZED,detail="Incorrect email for user ")
-
      if not verify_password(form_data.password, existing_user.hash_password):
          raise  HTTPException (status_code=status.HTTP_401_UNAUTHORIZED,detail="Incorrect password for user ")
 

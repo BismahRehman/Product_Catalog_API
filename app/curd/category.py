@@ -34,7 +34,6 @@ def delete_category(category_id,db):
 
     db.delete(existing_category)
     db.commit()
-    db.refresh(existing_category)
     return existing_category
 
 
